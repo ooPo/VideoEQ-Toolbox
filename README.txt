@@ -18,7 +18,7 @@
   CONFIG:
 
     config reset
-    config deepColourForce [enable|disable]
+    config deepColorForce [enable|disable]
     config hdcpForce [enable|disable]
 
   CMS:
@@ -36,6 +36,7 @@
   PROFILE:
 
     profile get
+    profile reset
     profile set <index>
 
   RASTER:
@@ -43,12 +44,16 @@
     raster reset
     raster set <input|output> <red> <green> <blue>
 
+  INFO:
+
+    info
+
 =======
  NOTES
 =======
 
 - CMS files:
-  - Cols: hue, saturation, value
+  - Cols: hue, saturation, value (HSV) or red, green, blue (RGB)
   - Rows: red, green, blue, cyan, magenta, yellow
   - Floating point values. (0.0 - 1.0)
 

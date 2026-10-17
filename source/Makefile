@@ -5,8 +5,8 @@
 TARGET = videoeq-toolbox.exe
 LIBS = SDK/libVideoEq.a SDK/SiUSBXp.lib
 
-CPP = g++
-CPPFLAGS = -static
+CXX = g++
+CXXFLAGS = -static -Wall -Wextra
 
 ##
 ## Rules
@@ -20,10 +20,10 @@ default: all
 all: $(TARGET)
 
 clean:
-	rm -f $(TARGET)
+	rm -f $(TARGET) $(OBJS)
 
-%.o: %.c
-	$(CPP) $(CPPFLAGS) -c $< -o $@
+%.o: %.cpp
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 %.exe: $(OBJS) $(LIBS)
-	$(CPP) $(CPPFLAGS) $^ -o $@
+	$(CXX) $(CXXFLAGS) $^ -o $@

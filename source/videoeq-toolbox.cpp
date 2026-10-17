@@ -8,11 +8,13 @@
 #include <stdint.h>
 #include <string.h>
 
-#include "sdk/VideoEq.h"
+#include "SDK/VideoEq.h"
 
 #include "config.h"
 #include "cms.h"
+#include "info.h"
 #include "lut.h"
+#include "parse.h"
 #include "profile.h"
 #include "raster.h"
 
@@ -86,7 +88,7 @@ int main ( int argc, char *argv[ ] )
     // CMS Commands
     //
 
-    if ( argumentCompare ( 1, "cms" ) )
+    else if ( argumentCompare ( 1, "cms" ) )
     {
       CMS_t cms;
 
@@ -164,11 +166,30 @@ int main ( int argc, char *argv[ ] )
       {
         success = profile.reset ( videoEq );
       }
+      else if ( argumentCompare ( 2, "get" ) )
+      {
+        unsigned int index = 0;
+
+        if ( profile.get ( videoEq, &index ) )
+        {
+          printf ( "%u\n", index );
+          success = true;
+        }
+      }
       else if ( argc > 3 )
       {
         if ( argumentCompare ( 2, "set" ) )
         {
-          success = profile.set ( videoEq, atoi ( argv[ 3 ] ) );
+          unsigned int index;
+
+          if ( parseArgument ( argv[ 3 ], &index, 22 ) )
+          {
+            success = profile.set ( videoEq, index );
+          }
+          else
+          {
+            printf ( "Error: profile index must be an integer between 0 and 22.\n" );
+          }
         }
       }
     }
@@ -189,12 +210,36 @@ int main ( int argc, char *argv[ ] )
       {
         if ( argumentCompare ( 2, "set" ) )
         {
-          success = raster.set ( videoEq, argumentCompare ( 3, "input" ) ? RASTER_t::RASTER_TYPE_INPUT : RASTER_t::RASTER_TYPE_OUTPUT, atoi ( argv[ 4 ] ), atoi ( argv[ 5 ] ), atoi ( argv[ 6 ] ) );
+          unsigned int red, green, blue;
+
+          if ( parseArgument ( argv[ 4 ], &red, 1023 ) && parseArgument ( argv[ 5 ], &green, 1023 ) && parseArgument ( argv[ 6 ], &blue, 1023 ) )
+          {
+            success = raster.set ( videoEq, argumentCompare ( 3, "input" ) ? RASTER_t::RASTER_TYPE_INPUT : RASTER_t::RASTER_TYPE_OUTPUT, red, green, blue );
+          }
+          else
+          {
+            printf ( "Error: raster values must be integers between 0 and 1023.\n" );
+          }
         }
       }
     }
 
+    //
+    // Info Commands
+    //
+
+    else if ( argumentCompare ( 1, "info" ) )
+    {
+      INFO_t info;
+
+      success = info.print ( videoEq );
+    }
+
     videoEq->disconnect ( );
+  }
+  else
+  {
+    printf ( "Error: could not connect to VideoEq.\n" );
   }
 
   //
@@ -224,13 +269,19 @@ int main ( int argc, char *argv[ ] )
     printf ( "  lut save <filename.csv>\n" );
     printf ( "\n" );
     printf ( "PROFILE:\n" );
+    printf ( "  profile get\n" );
     printf ( "  profile reset\n" );
     printf ( "  profile set <index>\n" );
     printf ( "\n" );
     printf ( "RASTER:\n" );
     printf ( "  raster reset\n" );
     printf ( "  raster set <input|output> <red> <green> <blue>\n" );
+    printf ( "\n" );
+    printf ( "INFO:\n" );
+    printf ( "  info\n" );
   }
+
+  delete videoEq;
 
   return success ? 0 : -1;
 }

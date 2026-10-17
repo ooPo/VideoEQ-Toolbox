@@ -8,7 +8,7 @@
 struct LUT_t
 {
 
-  #define LUT_ENTRIES 1024
+  static const int LUT_ENTRIES = 1024;
 
   struct
   {
@@ -27,7 +27,7 @@ struct LUT_t
   bool push ( VideoEq *videoEq );
   bool pull ( VideoEq *videoEq );
 
-  bool load ( char *filename );
-  bool save ( char *filename );
+  bool load ( const char *filename );
+  bool save ( const char *filename );
 
 };

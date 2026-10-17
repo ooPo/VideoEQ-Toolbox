@@ -1,4 +1,4 @@
 .DS_Store
-source/SiUSBXp.dll
 source/videoeq-toolbox.exe
+test/test-toolbox.exe
 videoeq-toolbox-v*

@@ -8,8 +8,8 @@
 struct RASTER_t
 {
 
-	enum RASTER_TYPE_t
-	{
+  enum RASTER_TYPE_t
+  {
     RASTER_TYPE_INPUT,
     RASTER_TYPE_OUTPUT
   };

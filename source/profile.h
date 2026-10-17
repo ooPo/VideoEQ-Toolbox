@@ -14,6 +14,8 @@ struct PROFILE_t
 
   bool reset ( VideoEq *videoEq );
 
+  bool get ( VideoEq *videoEq, unsigned int *index );
+
   bool set ( VideoEq *videoEq, unsigned int index );
 
 };

@@ -53,7 +53,7 @@ bool LUT_t::pull ( VideoEq *videoEq )
   return false;
 }
 
-bool LUT_t::load ( char *filename )
+bool LUT_t::load ( const char *filename )
 {
   if ( filename )
   {
@@ -63,19 +63,35 @@ bool LUT_t::load ( char *filename )
     {
       for ( int loop = 0; loop < LUT_ENTRIES; loop++ )
       {
-        fscanf ( infile, "%hu, %hu, %hu\r\n", &lutTable.r[ loop ], &lutTable.g[ loop ], &lutTable.b[ loop ] );
+        if ( fscanf ( infile, "%hu, %hu, %hu\r\n", &lutTable.r[ loop ], &lutTable.g[ loop ], &lutTable.b[ loop ] ) != 3 )
+        {
+          fclose ( infile );
+
+          printf ( "Error: malformed LUT file '%s'.\n", filename );
+          return false;
+        }
+      }
+
+      if ( fgetc ( infile ) != EOF )
+      {
+        fclose ( infile );
+
+        printf ( "Error: LUT file '%s' must contain exactly %d rows.\n", filename, LUT_ENTRIES );
+        return false;
       }
 
       fclose ( infile );
 
       return true;
     }
+
+    printf ( "Error: could not open file '%s'.\n", filename );
   }
 
   return false;
 }
 
-bool LUT_t::save ( char *filename )
+bool LUT_t::save ( const char *filename )
 {
   if ( filename )
   {
@@ -92,6 +108,8 @@ bool LUT_t::save ( char *filename )
 
       return true;
     }
+
+    printf ( "Error: could not open file '%s'.\n", filename );
   }
 
   return false;

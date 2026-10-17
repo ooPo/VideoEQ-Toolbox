@@ -1,5 +1,5 @@
 //
-// cms.h
+// cms.cpp
 // by Naomi Peori (naomi@peori.ca)
 //
 
@@ -61,7 +61,7 @@ bool CMS_t::pull ( VideoEq *videoEq, CMS_TYPE_t cmsType )
   return false;
 }
 
-bool CMS_t::load ( char *filename )
+bool CMS_t::load ( const char *filename )
 {
   if ( filename )
   {
@@ -71,19 +71,35 @@ bool CMS_t::load ( char *filename )
     {
       for ( int loop = 0; loop < CMS_ENTRIES; loop++ )
       {
-        fscanf ( infile, "%f, %f, %f\r\n", &cmsTable.raw[ loop ][ 0 ], &cmsTable.raw[ loop ][ 1 ], &cmsTable.raw[ loop ][ 2 ] );
+        if ( fscanf ( infile, "%f, %f, %f\r\n", &cmsTable.raw[ loop ][ 0 ], &cmsTable.raw[ loop ][ 1 ], &cmsTable.raw[ loop ][ 2 ] ) != 3 )
+        {
+          fclose ( infile );
+
+          printf ( "Error: malformed CMS file '%s'.\n", filename );
+          return false;
+        }
+      }
+
+      if ( fgetc ( infile ) != EOF )
+      {
+        fclose ( infile );
+
+        printf ( "Error: CMS file '%s' must contain exactly %d rows.\n", filename, CMS_ENTRIES );
+        return false;
       }
 
       fclose ( infile );
 
       return true;
     }
+
+    printf ( "Error: could not open file '%s'.\n", filename );
   }
 
   return false;
 }
 
-bool CMS_t::save ( char *filename )
+bool CMS_t::save ( const char *filename )
 {
   if ( filename )
   {
@@ -100,6 +116,8 @@ bool CMS_t::save ( char *filename )
 
       return true;
     }
+
+    printf ( "Error: could not open file '%s'.\n", filename );
   }
 
   return false;
