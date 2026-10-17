@@ -4,7 +4,7 @@ CLI tool for controlling VideoEq external video colour processors (e.g. VideoEq 
 
 ## Build
 
-- Windows only (MinGW). The vendor SDK in `source/SDK/` is precompiled binaries that only link with G++ 4.6.2 — see `BUILDING.txt` for setup.
+- Windows only (MinGW). The vendor SDK in `source/SDK/` is precompiled binaries that only link with G++ 4.6.2 — see `README.md` for setup.
 - `make clean && make` in `source/` → `videoeq-toolbox.exe`. `clean` removes the `.exe` and all `.o` files.
 - The Makefile compiles every `*.cpp` under `source/` (via `find`), so a new `.cpp` placed there is picked up automatically.
 - No CI, linter, or typecheck configured.
