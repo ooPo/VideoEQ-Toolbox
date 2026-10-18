@@ -5,4 +5,4 @@
 
 #pragma once
 
-bool parseArgument ( const char *text, unsigned int *value, unsigned int max );
+bool parseArgument(const char *text, unsigned int *value, unsigned int max);

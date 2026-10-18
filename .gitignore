@@ -2,3 +2,4 @@
 source/videoeq-toolbox.exe
 test/test-toolbox.exe
 videoeq-toolbox-v*
+.veq-extract/

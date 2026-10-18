@@ -3,9 +3,9 @@
 // by Naomi Peori (naomi@peori.ca)
 //
 
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdint.h>
 #include <string.h>
 
 #include "SDK/VideoEq.h"
@@ -15,28 +15,23 @@
 // Functions
 //
 
-bool CMS_t::reset ( )
-{
-  for ( int loop = 0; loop < CMS_ENTRIES; loop++ )
-  {
-    cmsTable.raw[ loop ][ 0 ] = 0.00f;
-    cmsTable.raw[ loop ][ 1 ] = 1.00f;
-    cmsTable.raw[ loop ][ 2 ] = 1.00f;    
+bool CMS_t::reset() {
+  for (int loop = 0; loop < CMS_ENTRIES; loop++) {
+    cmsTable.raw[loop][0] = 0.00f;
+    cmsTable.raw[loop][1] = 1.00f;
+    cmsTable.raw[loop][2] = 1.00f;
   }
 
   return true;
 }
 
-bool CMS_t::push ( VideoEq *videoEq, CMS_TYPE_t cmsType )
-{
-  if ( videoEq )
-  {
-    uint8_t currentCms[ VideoEq::kCmsSize ] = { 0 };
+bool CMS_t::push(VideoEq *videoEq, CMS_TYPE_t cmsType) {
+  if (videoEq) {
+    uint8_t currentCms[VideoEq::kCmsSize] = {0};
 
-    ( cmsType == CMS_TYPE_HSV ) ? videoEq->hsvToVEq ( currentCms, cmsTable.hsv ) : videoEq->rgbToVEq ( currentCms, cmsTable.rgb );
+    (cmsType == CMS_TYPE_HSV) ? videoEq->hsvToVEq(currentCms, cmsTable.hsv) : videoEq->rgbToVEq(currentCms, cmsTable.rgb);
 
-    if ( videoEq->setCurrentCms ( currentCms ) == VideoEq::NoError )
-    {
+    if (videoEq->setCurrentCms(currentCms) == VideoEq::NoError) {
       return true;
     }
   }
@@ -44,15 +39,12 @@ bool CMS_t::push ( VideoEq *videoEq, CMS_TYPE_t cmsType )
   return false;
 }
 
-bool CMS_t::pull ( VideoEq *videoEq, CMS_TYPE_t cmsType )
-{
-  if ( videoEq )
-  {
-    uint8_t currentCms[ VideoEq::kCmsSize ] = { 0 };
+bool CMS_t::pull(VideoEq *videoEq, CMS_TYPE_t cmsType) {
+  if (videoEq) {
+    uint8_t currentCms[VideoEq::kCmsSize] = {0};
 
-    if ( videoEq->getCurrentCms ( currentCms ) == VideoEq::NoError )
-    {
-      ( cmsType == CMS_TYPE_HSV ) ? videoEq->veqToHSV ( cmsTable.hsv, currentCms ) : videoEq->veqToRGB ( cmsTable.rgb, currentCms );
+    if (videoEq->getCurrentCms(currentCms) == VideoEq::NoError) {
+      (cmsType == CMS_TYPE_HSV) ? videoEq->veqToHSV(cmsTable.hsv, currentCms) : videoEq->veqToRGB(cmsTable.rgb, currentCms);
 
       return true;
     }
@@ -61,63 +53,53 @@ bool CMS_t::pull ( VideoEq *videoEq, CMS_TYPE_t cmsType )
   return false;
 }
 
-bool CMS_t::load ( const char *filename )
-{
-  if ( filename )
-  {
-    FILE *infile = fopen ( filename, "r" );
+bool CMS_t::load(const char *filename) {
+  if (filename) {
+    FILE *infile = fopen(filename, "r");
 
-    if ( infile )
-    {
-      for ( int loop = 0; loop < CMS_ENTRIES; loop++ )
-      {
-        if ( fscanf ( infile, "%f, %f, %f\r\n", &cmsTable.raw[ loop ][ 0 ], &cmsTable.raw[ loop ][ 1 ], &cmsTable.raw[ loop ][ 2 ] ) != 3 )
-        {
-          fclose ( infile );
+    if (infile) {
+      for (int loop = 0; loop < CMS_ENTRIES; loop++) {
+        if (fscanf(infile, "%f, %f, %f\r\n", &cmsTable.raw[loop][0], &cmsTable.raw[loop][1], &cmsTable.raw[loop][2]) != 3) {
+          fclose(infile);
 
-          printf ( "Error: malformed CMS file '%s'.\n", filename );
+          printf("Error: malformed CMS file '%s'.\n", filename);
           return false;
         }
       }
 
-      if ( fgetc ( infile ) != EOF )
-      {
-        fclose ( infile );
+      if (fgetc(infile) != EOF) {
+        fclose(infile);
 
-        printf ( "Error: CMS file '%s' must contain exactly %d rows.\n", filename, CMS_ENTRIES );
+        printf("Error: CMS file '%s' must contain exactly %d rows.\n", filename, CMS_ENTRIES);
         return false;
       }
 
-      fclose ( infile );
+      fclose(infile);
 
       return true;
     }
 
-    printf ( "Error: could not open file '%s'.\n", filename );
+    printf("Error: could not open file '%s'.\n", filename);
   }
 
   return false;
 }
 
-bool CMS_t::save ( const char *filename )
-{
-  if ( filename )
-  {
-    FILE *outfile = fopen ( filename, "w" );
+bool CMS_t::save(const char *filename) {
+  if (filename) {
+    FILE *outfile = fopen(filename, "w");
 
-    if ( outfile )
-    {
-      for ( int loop = 0; loop < CMS_ENTRIES; loop++ )
-      {
-        fprintf ( outfile, "%f, %f, %f\r\n", cmsTable.raw[ loop ][ 0 ], cmsTable.raw[ loop ][ 1 ], cmsTable.raw[ loop ][ 2 ] );
+    if (outfile) {
+      for (int loop = 0; loop < CMS_ENTRIES; loop++) {
+        fprintf(outfile, "%f, %f, %f\r\n", cmsTable.raw[loop][0], cmsTable.raw[loop][1], cmsTable.raw[loop][2]);
       }
 
-      fclose ( outfile );
+      fclose(outfile);
 
       return true;
     }
 
-    printf ( "Error: could not open file '%s'.\n", filename );
+    printf("Error: could not open file '%s'.\n", filename);
   }
 
   return false;

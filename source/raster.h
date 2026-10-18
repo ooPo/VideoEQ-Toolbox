@@ -5,11 +5,9 @@
 
 #pragma once
 
-struct RASTER_t
-{
+struct RASTER_t {
 
-  enum RASTER_TYPE_t
-  {
+  enum RASTER_TYPE_t {
     RASTER_TYPE_INPUT,
     RASTER_TYPE_OUTPUT
   };
@@ -18,8 +16,7 @@ struct RASTER_t
   // Functions
   //
 
-  bool reset ( VideoEq *videoEq );
+  bool reset(VideoEq *videoEq);
 
-  bool set ( VideoEq *videoEq, RASTER_TYPE_t rasterType, unsigned int red, unsigned int green, unsigned int blue );
-
+  bool set(VideoEq *videoEq, RASTER_TYPE_t rasterType, unsigned int red, unsigned int green, unsigned int blue);
 };

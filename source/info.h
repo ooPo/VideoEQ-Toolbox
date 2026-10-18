@@ -5,11 +5,10 @@
 
 #pragma once
 
-struct INFO_t
-{
+struct INFO_t {
   //
   // Functions
   //
 
-  bool print ( VideoEq *videoEq );
+  bool print(VideoEq *videoEq);
 };

@@ -1,0 +1,11 @@
+# VideoEQ-Toolbox clang-format configuration.
+# K&R-style: attached braces, no spaces inside parentheses/brackets,
+# 2-space indent. Based on the LLVM style, which is the closest built-in
+# match to K&R. ColumnLimit 0 keeps long lines un-wrapped so the first
+# pass only normalizes braces and inner spacing.
+BasedOnStyle: LLVM
+ColumnLimit: 0
+IndentWidth: 2
+SpacesInParentheses: false
+SpacesInSquareBrackets: false
+PointerAlignment: Right

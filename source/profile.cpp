@@ -3,9 +3,9 @@
 // by Naomi Peori (naomi@peori.ca)
 //
 
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdint.h>
 #include <string.h>
 
 #include "SDK/VideoEq.h"
@@ -15,17 +15,13 @@
 // Functions
 //
 
-bool PROFILE_t::reset ( VideoEq *videoEq )
-{
-  return this->set ( videoEq, 0 );
+bool PROFILE_t::reset(VideoEq *videoEq) {
+  return this->set(videoEq, 0);
 }
 
-bool PROFILE_t::get ( VideoEq *videoEq, unsigned int *index )
-{
-  if ( videoEq )
-  {
-    if ( videoEq->getCurrentProfile ( *index ) == VideoEq::NoError )
-    {
+bool PROFILE_t::get(VideoEq *videoEq, unsigned int *index) {
+  if (videoEq) {
+    if (videoEq->getCurrentProfile(*index) == VideoEq::NoError) {
       return true;
     }
   }
@@ -33,21 +29,17 @@ bool PROFILE_t::get ( VideoEq *videoEq, unsigned int *index )
   return false;
 }
 
-bool PROFILE_t::set ( VideoEq *videoEq, unsigned int index )
-{
-  if ( videoEq )
-  {
-    VideoEq::VEqError error = videoEq->setCurrentProfile ( index );
+bool PROFILE_t::set(VideoEq *videoEq, unsigned int index) {
+  if (videoEq) {
+    VideoEq::VEqError error = videoEq->setCurrentProfile(index);
 
-    if ( error == VideoEq::NoError )
-    {
+    if (error == VideoEq::NoError) {
       // TODO: Wait 5 seconds?
       return true;
     }
 
-    if ( error == VideoEq::InvalidProfile )
-    {
-      printf ( "Error: invalid profile index %u.\n", index );
+    if (error == VideoEq::InvalidProfile) {
+      printf("Error: invalid profile index %u.\n", index);
     }
   }
 

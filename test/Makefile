@@ -19,3 +19,11 @@ $(TARGET): test-toolbox.cpp ../source/cms.cpp ../source/info.cpp ../source/lut.c
 
 clean:
 	rm -f $(TARGET)
+
+FMT_SRCS = test-toolbox.cpp
+
+fmt:
+	clang-format -i $(FMT_SRCS)
+
+lint:
+	clang-format --dry-run -Werror $(FMT_SRCS)

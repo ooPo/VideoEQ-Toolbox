@@ -5,17 +5,15 @@
 
 #pragma once
 
-struct PROFILE_t
-{
+struct PROFILE_t {
 
   //
   // Functions
   //
 
-  bool reset ( VideoEq *videoEq );
+  bool reset(VideoEq *videoEq);
 
-  bool get ( VideoEq *videoEq, unsigned int *index );
+  bool get(VideoEq *videoEq, unsigned int *index);
 
-  bool set ( VideoEq *videoEq, unsigned int index );
-
+  bool set(VideoEq *videoEq, unsigned int index);
 };

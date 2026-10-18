@@ -7,7 +7,7 @@ CLI tool for controlling VideoEq external video colour processors (e.g. VideoEq 
 - Windows only (MinGW). The vendor SDK in `source/SDK/` is precompiled binaries that only link with G++ 4.6.2 — see `README.md` for setup.
 - `make clean && make` in `source/` → `videoeq-toolbox.exe`. `clean` removes the `.exe` and all `.o` files.
 - The Makefile compiles every `*.cpp` under `source/` (via `find`), so a new `.cpp` placed there is picked up automatically.
-- No CI, linter, or typecheck configured.
+- No CI or typecheck configured. Code style is enforced with `clang-format` (see Style).
 
 ## Testing
 
@@ -36,4 +36,6 @@ CLI tool for controlling VideoEq external video colour processors (e.g. VideoEq 
 
 ## Style
 
-- C++98 style: 2-space indent, spaces inside parentheses `func ( args )`, `#pragma once`, no C++11 features. Match existing code.
+- C++98: no C++11 features, `#pragma once` in headers.
+- K&R style enforced by `clang-format` (`.clang-format` at repo root): attached braces, no spaces inside parentheses or brackets, 2-space indent, right-aligned pointers, LF line endings.
+- Format with `make -C source fmt` / `make -C test fmt`; check with `make -C source lint` / `make -C test lint` (`--dry-run -Werror`). `source/SDK/` is excluded from both.

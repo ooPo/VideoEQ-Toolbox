@@ -5,29 +5,26 @@
 
 #pragma once
 
-struct LUT_t
-{
+struct LUT_t {
 
   static const int LUT_ENTRIES = 1024;
 
   struct
   {
-    uint16_t r[ LUT_ENTRIES ];
-    uint16_t g[ LUT_ENTRIES ];
-    uint16_t b[ LUT_ENTRIES ];
-  }
-  lutTable;
+    uint16_t r[LUT_ENTRIES];
+    uint16_t g[LUT_ENTRIES];
+    uint16_t b[LUT_ENTRIES];
+  } lutTable;
 
   //
   // Functions
   //
 
-  bool reset ( );
+  bool reset();
 
-  bool push ( VideoEq *videoEq );
-  bool pull ( VideoEq *videoEq );
+  bool push(VideoEq *videoEq);
+  bool pull(VideoEq *videoEq);
 
-  bool load ( const char *filename );
-  bool save ( const char *filename );
-
+  bool load(const char *filename);
+  bool save(const char *filename);
 };

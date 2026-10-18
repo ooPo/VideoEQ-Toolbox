@@ -5,17 +5,15 @@
 
 #pragma once
 
-struct CONFIG_t
-{
+struct CONFIG_t {
 
   //
   // Functions
   //
 
-  bool reset ( VideoEq *videoEq );
+  bool reset(VideoEq *videoEq);
 
-  bool deepColorForce ( VideoEq *videoEq, bool enable );
+  bool deepColorForce(VideoEq *videoEq, bool enable);
 
-  bool hdcpForce ( VideoEq *videoEq, bool enable );
-
+  bool hdcpForce(VideoEq *videoEq, bool enable);
 };
